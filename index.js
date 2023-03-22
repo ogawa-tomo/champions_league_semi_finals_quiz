@@ -5,21 +5,25 @@ const { Select } = require("enquirer");
 const main = async () => {
   const data = await read_data("data.csv");
   const seasons = data.map((d) => new Season(d));
+  let seasons_for_answer = seasons.map((season) => season);
 
   console.log(
     "Choose the correct semi-finals of UEFA Champions League / European Cup of the season."
   );
-  const answer_season = seasons[Math.floor(Math.random() * seasons.length)];
-  let choices = get_choices(seasons, answer_season);
-  const answer = await selectAnswerFromChoice(
-    choices,
-    `Q: ${answer_season.season}`
-  );
-  if (answer === answer_season.semi_finals) {
-    console.log("Correct!");
-  } else {
-    console.log("Incorrect! The answer is:");
-    console.log(answer_season.semi_finals);
+  for (let i = 1; i <= 10; i++) {
+    const idx = Math.floor(Math.random() * seasons_for_answer.length);
+    const answer_season = seasons_for_answer.splice(idx, 1)[0];
+    let choices = get_choices(seasons, answer_season);
+    const answer = await selectAnswerFromChoice(
+      choices,
+      `Q${i}: ${answer_season.season}`
+    );
+    if (answer === answer_season.semi_finals) {
+      console.log("Correct!");
+    } else {
+      console.log("Incorrect! The answer is:");
+      console.log(answer_season.semi_finals);
+    }
   }
 };
 
@@ -106,5 +110,12 @@ class Season {
     return this._runners_up;
   }
 }
+
+// class SeasonsManager {
+//   constructor(seasons) {
+//     this._seasons = seasons
+//     this._seasons_for_answer =
+//   }
+// }
 
 main();
