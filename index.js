@@ -7,6 +7,7 @@ const main = async () => {
   const seasons = data.map((d) => new Season(d));
   const seasons_manager = new SeasonsManager(seasons);
 
+  let score = 0;
   console.log(
     "Choose the correct semi-finals of UEFA Champions League / European Cup of the season."
   );
@@ -19,11 +20,13 @@ const main = async () => {
     );
     if (answer === answer_season.semi_finals) {
       console.log("Correct!");
+      score++;
     } else {
       console.log("Incorrect! The answer is:");
       console.log(answer_season.semi_finals);
     }
   }
+  console.log(`Your score is ${score}/10.`);
 };
 
 const read_data = (file) => {
