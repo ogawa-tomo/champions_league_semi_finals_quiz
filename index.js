@@ -5,8 +5,8 @@ const main = async () => {
   const data = await read_data("data.csv");
   const seasons = data.map((d) => new Season(d));
   const answer_season = seasons[Math.floor(Math.random() * seasons.length)];
-  console.log(answer_season);
-  console.log(answer_season.semi_finals);
+  let choices = get_choices(seasons, answer_season);
+  console.log(choices);
 };
 
 const read_data = (file) => {
@@ -17,6 +17,41 @@ const read_data = (file) => {
       })
     );
   });
+};
+
+const get_choices = (seasons, answer_season) => {
+  const answer_index = seasons.indexOf(answer_season);
+
+  // 正解の前後10年をダミー選択肢の候補とする
+  let dummy_season_candidates1 = seasons.slice(
+    Math.max(0, answer_index - 10),
+    answer_index
+  );
+  let dummy_season_candidates2 = seasons.slice(
+    answer_index + 1,
+    Math.min(answer_index + 11, seasons.length)
+  );
+  let dummy_season_candidates = dummy_season_candidates1.concat(
+    dummy_season_candidates2
+  );
+
+  let choices = [answer_season];
+  for (let i = 0; i < 3; i++) {
+    let idx = Math.floor(Math.random() * dummy_season_candidates.length);
+    let season = dummy_season_candidates.splice(idx, 1)[0];
+    choices.push(season);
+  }
+
+  shuffle(choices);
+
+  return choices;
+};
+
+const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 };
 
 class Season {
