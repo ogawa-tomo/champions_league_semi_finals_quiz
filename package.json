@@ -12,5 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "csv": "^6.2.8"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.6"
   }
 }
