@@ -1,12 +1,26 @@
 const fs = require("fs");
 const csv = require("csv");
+const { Select } = require("enquirer");
 
 const main = async () => {
   const data = await read_data("data.csv");
   const seasons = data.map((d) => new Season(d));
+
+  console.log(
+    "Choose the correct semi-finals of UEFA Champions League / European Cup of the season."
+  );
   const answer_season = seasons[Math.floor(Math.random() * seasons.length)];
   let choices = get_choices(seasons, answer_season);
-  console.log(choices);
+  const answer = await selectAnswerFromChoice(
+    choices,
+    `Q: ${answer_season.season}`
+  );
+  if (answer === answer_season.semi_finals) {
+    console.log("Correct!");
+  } else {
+    console.log("Incorrect! The answer is:");
+    console.log(answer_season.semi_finals);
+  }
 };
 
 const read_data = (file) => {
@@ -54,6 +68,15 @@ const shuffle = (array) => {
   }
 };
 
+const selectAnswerFromChoice = async (choices, message) => {
+  const prompt = new Select({
+    name: "choices",
+    message: message,
+    choices: choices.map((choice) => choice.semi_finals),
+  });
+  return await prompt.run();
+};
+
 class Season {
   constructor(season_data) {
     this._season = season_data.season;
@@ -68,7 +91,7 @@ class Season {
   get semi_finals() {
     const card1 = `${this._semi_final1_1} v ${this._semi_final1_2}`;
     const card2 = `${this._semi_final2_1} v ${this._semi_final2_2}`;
-    return `${card1}\n${card2}`;
+    return `${card1} / ${card2}`;
   }
 
   get season() {

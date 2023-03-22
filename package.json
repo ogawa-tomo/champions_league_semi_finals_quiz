@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "csv": "^6.2.8"
+    "csv": "^6.2.8",
+    "enquirer": "^2.3.6"
   },
   "devDependencies": {
     "eslint": "^8.36.0",
