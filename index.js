@@ -9,24 +9,24 @@ const main = async () => {
 
   let score = 0;
   console.log(
-    "Choose the correct semi-finals of UEFA Champions League / European Cup of the season."
+    "\x1b[1mChoose the correct semi-finals of UEFA Champions League / European Cup of the season."
   );
   for (let i = 1; i <= 10; i++) {
     const answer_season = seasons_manager.get_answer_season();
     const choices = seasons_manager.get_choices(answer_season);
     const answer = await selectAnswerFromChoice(
       choices,
-      `Q${i}: ${answer_season.season}`
+      `\x1b[1mQ${i} : ${answer_season.season}`
     );
     if (answer === answer_season.semi_finals) {
-      console.log("Correct!");
+      console.log("\x1b[1m\x1b[32mCorrect!");
       score++;
     } else {
-      console.log("Incorrect! The answer is:");
+      console.log("\x1b[1m\x1b[31mIncorrect! \x1b[0mThe answer is:");
       console.log(answer_season.semi_finals);
     }
   }
-  console.log(`Your score is ${score}/10.`);
+  console.log(`\x1b[1mYour score is ${score}/10.`);
 };
 
 const read_data = (file) => {
