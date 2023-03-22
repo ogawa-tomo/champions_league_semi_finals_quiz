@@ -5,15 +5,14 @@ const { Select } = require("enquirer");
 const main = async () => {
   const data = await read_data("data.csv");
   const seasons = data.map((d) => new Season(d));
-  let seasons_for_answer = seasons.map((season) => season);
+  const seasons_manager = new SeasonsManager(seasons);
 
   console.log(
     "Choose the correct semi-finals of UEFA Champions League / European Cup of the season."
   );
   for (let i = 1; i <= 10; i++) {
-    const idx = Math.floor(Math.random() * seasons_for_answer.length);
-    const answer_season = seasons_for_answer.splice(idx, 1)[0];
-    let choices = get_choices(seasons, answer_season);
+    const answer_season = seasons_manager.get_answer_season();
+    const choices = seasons_manager.get_choices(answer_season);
     const answer = await selectAnswerFromChoice(
       choices,
       `Q${i}: ${answer_season.season}`
@@ -35,34 +34,6 @@ const read_data = (file) => {
       })
     );
   });
-};
-
-const get_choices = (seasons, answer_season) => {
-  const answer_index = seasons.indexOf(answer_season);
-
-  // 正解の前後10年をダミー選択肢の候補とする
-  let dummy_season_candidates1 = seasons.slice(
-    Math.max(0, answer_index - 10),
-    answer_index
-  );
-  let dummy_season_candidates2 = seasons.slice(
-    answer_index + 1,
-    Math.min(answer_index + 11, seasons.length)
-  );
-  let dummy_season_candidates = dummy_season_candidates1.concat(
-    dummy_season_candidates2
-  );
-
-  let choices = [answer_season];
-  for (let i = 0; i < 3; i++) {
-    let idx = Math.floor(Math.random() * dummy_season_candidates.length);
-    let season = dummy_season_candidates.splice(idx, 1)[0];
-    choices.push(season);
-  }
-
-  shuffle(choices);
-
-  return choices;
 };
 
 const shuffle = (array) => {
@@ -111,11 +82,45 @@ class Season {
   }
 }
 
-// class SeasonsManager {
-//   constructor(seasons) {
-//     this._seasons = seasons
-//     this._seasons_for_answer =
-//   }
-// }
+class SeasonsManager {
+  constructor(seasons) {
+    this._seasons = seasons;
+    this._seasons_for_answer = seasons.map((season) => season);
+  }
+
+  get_answer_season() {
+    const idx = Math.floor(Math.random() * this._seasons_for_answer.length);
+    const answer_season = this._seasons_for_answer.splice(idx, 1)[0];
+    return answer_season;
+  }
+
+  get_choices(answer_season) {
+    const answer_index = this._seasons.indexOf(answer_season);
+
+    // 正解の前後10年をダミー選択肢の候補とする
+    let dummy_season_candidates1 = this._seasons.slice(
+      Math.max(0, answer_index - 10),
+      answer_index
+    );
+    let dummy_season_candidates2 = this._seasons.slice(
+      answer_index + 1,
+      Math.min(answer_index + 11, this._seasons.length)
+    );
+    let dummy_season_candidates = dummy_season_candidates1.concat(
+      dummy_season_candidates2
+    );
+
+    let choices = [answer_season];
+    for (let i = 0; i < 3; i++) {
+      let idx = Math.floor(Math.random() * dummy_season_candidates.length);
+      let season = dummy_season_candidates.splice(idx, 1)[0];
+      choices.push(season);
+    }
+
+    shuffle(choices);
+
+    return choices;
+  }
+}
 
 main();
