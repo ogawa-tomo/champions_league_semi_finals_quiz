@@ -16,7 +16,7 @@ const main = async () => {
     const choices = seasons_manager.get_choices(answer_season);
     const answer = await selectAnswerFromChoice(
       choices,
-      `\x1b[1mQ${i}: ${answer_season.season}`
+      `\x1b[1m[${i}/10] ${answer_season.season}`
     );
     if (answer === answer_season.semi_finals) {
       console.log("\x1b[1m\x1b[32mCorrect!");
@@ -26,7 +26,7 @@ const main = async () => {
       console.log(answer_season.semi_finals);
     }
   }
-  console.log(`\x1b[1mFinish! Your score is ${score}/10.`);
+  console.log(`\x1b[39m\x1b[1mFinish! Your score is ${score}/10.`);
 };
 
 const read_data = (file) => {
