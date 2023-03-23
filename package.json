@@ -1,15 +1,23 @@
 {
-  "name": "champions_league_semi_finals_quiz",
+  "name": "champions-league-semi-finals-quiz",
   "version": "1.0.0",
   "bin": "./index.js",
-  "description": "",
+  "description": "This is a quiz to guess the semi-finals of UEFA Champions League / European Cup history.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ogawa-tomo/champions_league_semi_finals_quiz"
+  },
+  "keywords": [
+    "quiz",
+    "football",
+    "Champions League"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "csv": "^6.2.8",
     "enquirer": "^2.3.6"
