@@ -4,7 +4,7 @@ const csv = require("csv");
 const { Select } = require("enquirer");
 
 const main = async () => {
-  const data = await readData("./data.csv");
+  const data = await readData("/data.csv");
   const seasons = data.map((d) => new Season(d));
   const seasonsManager = new SeasonsManager(seasons);
 

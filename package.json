@@ -1,6 +1,6 @@
 {
   "name": "champions-league-semi-finals-quiz",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "bin": "./index.js",
   "description": "This is a quiz to guess the semi-finals of UEFA Champions League / European Cup history.",
   "main": "index.js",
