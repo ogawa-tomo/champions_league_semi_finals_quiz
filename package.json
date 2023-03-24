@@ -1,6 +1,6 @@
 {
   "name": "champions-league-semi-finals-quiz",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "bin": "./index.js",
   "files": [
     "data.csv"
