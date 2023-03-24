@@ -2,6 +2,9 @@
   "name": "champions-league-semi-finals-quiz",
   "version": "1.0.3",
   "bin": "./index.js",
+  "files": [
+    "data.csv"
+  ],
   "description": "This is a quiz to guess the semi-finals of UEFA Champions League / European Cup history.",
   "main": "index.js",
   "scripts": {
