@@ -10,7 +10,7 @@ const main = async () => {
 
   let score = 0;
   console.log(
-    "\x1b[1mChoose the correct semi-finals of UEFA Champions League / European Cup of the season."
+    "\x1b[1mChoose the correct UEFA Champions League / European Cup semi-finals for the given season."
   );
   for (let i = 1; i <= 10; i++) {
     const answerSeason = seasonsManager.getAnswerSeason();
