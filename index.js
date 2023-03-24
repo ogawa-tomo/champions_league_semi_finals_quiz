@@ -28,16 +28,6 @@ const main = async () => {
   console.log(`\x1b[39m\x1b[1mFinish! Your score is ${score}/10.`);
 };
 
-// const readData = (file) => {
-//   return new Promise((resolve) => {
-//     fs.createReadStream(file).pipe(
-//       csv.parse({ columns: true }, function (err, data) {
-//         resolve(data);
-//       })
-//     );
-//   });
-// };
-
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * (i + 1));
