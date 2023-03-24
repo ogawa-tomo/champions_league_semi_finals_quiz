@@ -4,33 +4,33 @@ const csv = require("csv");
 const { Select } = require("enquirer");
 
 const main = async () => {
-  const data = await read_data("data.csv");
+  const data = await readData("data.csv");
   const seasons = data.map((d) => new Season(d));
-  const seasons_manager = new SeasonsManager(seasons);
+  const seasonsManager = new SeasonsManager(seasons);
 
   let score = 0;
   console.log(
     "\x1b[1mChoose the correct semi-finals of UEFA Champions League / European Cup of the season."
   );
   for (let i = 1; i <= 10; i++) {
-    const answer_season = seasons_manager.get_answer_season();
-    const choices = seasons_manager.get_choices(answer_season);
+    const answerSeason = seasonsManager.getAnswerSeason();
+    const choices = seasonsManager.getChoices(answerSeason);
     const answer = await selectAnswerFromChoice(
       choices,
-      `\x1b[1m[${i}/10] ${answer_season.season}`
+      `\x1b[1m[${i}/10] ${answerSeason.season}`
     );
-    if (answer === answer_season.semi_finals) {
+    if (answer === answerSeason.semiFinals) {
       console.log("\x1b[1m\x1b[32mCorrect!");
       score++;
     } else {
       console.log("\x1b[1m\x1b[31mIncorrect! \x1b[0mThe answer is:");
-      console.log(answer_season.semi_finals);
+      console.log(answerSeason.semiFinals);
     }
   }
   console.log(`\x1b[39m\x1b[1mFinish! Your score is ${score}/10.`);
 };
 
-const read_data = (file) => {
+const readData = (file) => {
   return new Promise((resolve) => {
     fs.createReadStream(file).pipe(
       csv.parse({ columns: true }, function (err, data) {
@@ -51,25 +51,25 @@ const selectAnswerFromChoice = async (choices, message) => {
   const prompt = new Select({
     name: "choices",
     message: message,
-    choices: choices.map((choice) => choice.semi_finals),
+    choices: choices.map((choice) => choice.semiFinals),
   });
   return await prompt.run();
 };
 
 class Season {
-  constructor(season_data) {
-    this._season = season_data.season;
-    this._winner = season_data.winner;
-    this._runners_up = season_data.runners_up;
-    this._semi_final1_1 = season_data.semi_final1_1;
-    this._semi_final1_2 = season_data.semi_final1_2;
-    this._semi_final2_1 = season_data.semi_final2_1;
-    this._semi_final2_2 = season_data.semi_final2_2;
+  constructor(seasonData) {
+    this._season = seasonData.season;
+    this._winner = seasonData.winner;
+    this._runnersUp = seasonData.runnersUp;
+    this._semiFinal1_1 = seasonData.semiFinal1_1;
+    this._semiFinal1_2 = seasonData.semiFinal1_2;
+    this._semiFinal2_1 = seasonData.semiFinal2_1;
+    this._semiFinal2_2 = seasonData.semiFinal2_2;
   }
 
-  get semi_finals() {
-    const card1 = `${this._semi_final1_1} v ${this._semi_final1_2}`;
-    const card2 = `${this._semi_final2_1} v ${this._semi_final2_2}`;
+  get semiFinals() {
+    const card1 = `${this._semiFinal1_1} v ${this._semiFinal1_2}`;
+    const card2 = `${this._semiFinal2_1} v ${this._semiFinal2_2}`;
     return `${card1} / ${card2}`;
   }
 
@@ -81,43 +81,43 @@ class Season {
     return this._winner;
   }
 
-  get runners_up() {
-    return this._runners_up;
+  get runnersUp() {
+    return this._runnersUp;
   }
 }
 
 class SeasonsManager {
   constructor(seasons) {
     this._seasons = seasons;
-    this._seasons_for_answer = seasons.map((season) => season);
+    this._seasonsForAnswer = seasons.map((season) => season);
   }
 
-  get_answer_season() {
-    const idx = Math.floor(Math.random() * this._seasons_for_answer.length);
-    const answer_season = this._seasons_for_answer.splice(idx, 1)[0];
-    return answer_season;
+  getAnswerSeason() {
+    const idx = Math.floor(Math.random() * this._seasonsForAnswer.length);
+    const answerSeason = this._seasonsForAnswer.splice(idx, 1)[0];
+    return answerSeason;
   }
 
-  get_choices(answer_season) {
-    const answer_index = this._seasons.indexOf(answer_season);
+  getChoices(answerSeason) {
+    const answerIndex = this._seasons.indexOf(answerSeason);
 
     // 正解の前後10年をダミー選択肢の候補とする
-    let dummy_season_candidates1 = this._seasons.slice(
-      Math.max(0, answer_index - 10),
-      answer_index
+    let dummySeasonCandidate1 = this._seasons.slice(
+      Math.max(0, answerIndex - 10),
+      answerIndex
     );
-    let dummy_season_candidates2 = this._seasons.slice(
-      answer_index + 1,
-      Math.min(answer_index + 11, this._seasons.length)
+    let dummySeasonCandidate2 = this._seasons.slice(
+      answerIndex + 1,
+      Math.min(answerIndex + 11, this._seasons.length)
     );
-    let dummy_season_candidates = dummy_season_candidates1.concat(
-      dummy_season_candidates2
+    let dummySeasonCandidate = dummySeasonCandidate1.concat(
+      dummySeasonCandidate2
     );
 
-    let choices = [answer_season];
+    let choices = [answerSeason];
     for (let i = 0; i < 3; i++) {
-      let idx = Math.floor(Math.random() * dummy_season_candidates.length);
-      let season = dummy_season_candidates.splice(idx, 1)[0];
+      let idx = Math.floor(Math.random() * dummySeasonCandidate.length);
+      let season = dummySeasonCandidate.splice(idx, 1)[0];
       choices.push(season);
     }
 
