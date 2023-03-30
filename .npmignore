@@ -1,4 +1,2 @@
 .eslintrc.json
 .prettierrc.json
-convert_data_to_json.js
-data.csv
