@@ -28,13 +28,6 @@ const main = async () => {
   console.log(`\x1b[39m\x1b[1mFinish! Your score is ${score}/10.`);
 };
 
-const shuffle = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-};
-
 const selectAnswerFromChoice = async (choices, message) => {
   const prompt = new Select({
     name: "choices",
@@ -102,14 +95,13 @@ class SeasonsManager {
       dummySeasonCandidate2
     );
 
-    const choices = [answerSeason];
+    const choices = [];
     for (let i = 0; i < 3; i++) {
       const idx = Math.floor(Math.random() * dummySeasonCandidate.length);
       const season = dummySeasonCandidate.splice(idx, 1)[0];
       choices.push(season);
     }
-
-    shuffle(choices);
+    choices.splice(Math.floor(Math.random() * 4), 0, answerSeason);
 
     return choices;
   }
