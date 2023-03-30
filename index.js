@@ -30,7 +30,7 @@ const main = async () => {
 
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
 };
@@ -90,22 +90,22 @@ class SeasonsManager {
     const answerIndex = this._seasons.indexOf(answerSeason);
 
     // 正解の前後10年をダミー選択肢の候補とする
-    let dummySeasonCandidate1 = this._seasons.slice(
+    const dummySeasonCandidate1 = this._seasons.slice(
       Math.max(0, answerIndex - 10),
       answerIndex
     );
-    let dummySeasonCandidate2 = this._seasons.slice(
+    const dummySeasonCandidate2 = this._seasons.slice(
       answerIndex + 1,
       Math.min(answerIndex + 11, this._seasons.length)
     );
-    let dummySeasonCandidate = dummySeasonCandidate1.concat(
+    const dummySeasonCandidate = dummySeasonCandidate1.concat(
       dummySeasonCandidate2
     );
 
-    let choices = [answerSeason];
+    const choices = [answerSeason];
     for (let i = 0; i < 3; i++) {
-      let idx = Math.floor(Math.random() * dummySeasonCandidate.length);
-      let season = dummySeasonCandidate.splice(idx, 1)[0];
+      const idx = Math.floor(Math.random() * dummySeasonCandidate.length);
+      const season = dummySeasonCandidate.splice(idx, 1)[0];
       choices.push(season);
     }
 
